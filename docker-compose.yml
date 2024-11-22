@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres-pageloot
+    restart: always
+    environment:
+      - POSTGRES_USER=pageloot
+      - POSTGRES_PASSWORD=pass111
+      - POSTGRES_DB=pagelootdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+
+  pageloot:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: pageloot
+    container_name: pageloot
+    command: /usr/local/bin/gunicorn pageloot.wsgi -w 1 -b 0.0.0.0:8000 -t 0 --reload
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+       - .:/app
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

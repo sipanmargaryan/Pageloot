@@ -1,0 +1,14 @@
+__pycache__/
+
+# PyCharm project files
+.idea/
+venv/
+.vscode/
+
+# File-based project format
+*.iws
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+
